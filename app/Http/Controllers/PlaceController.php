@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Place;
+use App\Traits\RateableTrait;
 use Illuminate\Http\Request;
 
 class PlaceController extends Controller
 {
+    use RateableTrait;
     public $place;
     public function __construct(Place $place)
     {
@@ -17,8 +19,9 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        $places =  $this->place->orderBy('view_count', 'desc')->take(3)->get();
-        return view('welcome', 'places');
+        // $places =  $this->place->orderBy('view_count', 'desc')->take(3)->get();
+        // return view('welcome', 'places');
+        return view('welcome',['places'=> Place::orderBy('view_count','desc')->take(3)->get()]);
     }
 
     /**
@@ -42,7 +45,14 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
-        //
+        $place = $place::withCount('reviews')->with('reviews')->find($place->id);
+        $avg = $this->averageRating($place);
+        $total = $avg['total'];
+        $serviceRating = $avg['service_rating'];
+        $qualityRating = $avg['quality_rating'];
+        $cleanlinessRating = $avg['cleanliness_rating'];
+        $pricingRating = $avg['pricing_rating'];
+        return view('places.details', compact('place', 'total', 'serviceRating', 'qualityRating', 'cleanlinessRating', 'pricingRating'));
     }
 
     /**

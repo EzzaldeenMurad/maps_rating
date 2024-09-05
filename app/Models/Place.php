@@ -22,4 +22,12 @@ class Place extends Model
             $query->where('address', 'LIKE', '%' . $request->address . '%');
         }
     }
+    public function reviews()
+    {
+        return $this->hasMany('App\Models\Review');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
