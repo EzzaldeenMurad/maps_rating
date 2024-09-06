@@ -115,8 +115,7 @@
                             <div class="review-block ">
                                 <div class="grid grid-cols-3 p-5">
                                     <div class="text-sm">
-                                        <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image"
-                                            class="img-rounded">
+                                        <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
                                         <div class="text-blue-400"><a href="#">{{ $review->user->name }}</a>
                                         </div>
                                         <div class="review-block-date">{{ $review->created_at->diffForHumans() }}</div>
@@ -127,7 +126,7 @@
                                         </div>
                                         <div class="review-block-description ">{{ $review->review }}</div>
 
-                                        {{-- <div class="mt-3">
+                                        <div class="mt-3">
                                             @auth
                                                 <button id="like" type="button" data-id="{{ $review->id }}"
                                                     class="border rounded p-1 text-xs like">
@@ -140,7 +139,7 @@
                                                 <span class="border rounded text-xs p-1"><i class="fa fa-thumbs-up"></i>
                                                     {{ $review->likes_count }}</span>
                                             @endauth
-                                        </div> --}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -244,53 +243,68 @@
                 </div>
             </div>
         </div>
-</x-app-layout>
+    </x-app-layout>
 
 
-{{-- <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" ></script>
-<script type="text/javascript">
-    $(function(){
-        $('button.like').on('click', function() {
-            var review = $(this).data('id');
-            var likebtn = $(this);
+    {{-- <script src="/https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" ></script> --}}
+    <script type="text/javascript">
+        $(function() {
+            $('button.like').on('click', function() {
+                var review = $(this).data('id');
+                var likebtn = $(this);
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: "{{ route('like.store') }}",
+                    type: 'POST',
+                    data: {
+                        'review_id': review
+                    }
+                }).done(function(data) {
+                    if (data) {
+                        //     if ({{ Auth::user()->alreadyliked($review) }}) {
+                        //         likebtn.html('<li class="fa fa-thumbs-down"></li> <small>' +
+                        //             'إلغاء الإعجاب' +
+                        //             '</small>' + data);
+                        //     } else {
+                        //         likebtn.html('<li class="fa fa-thumbs-up"></li> <small>' + 'أعجبني' +
+                        //             '</small>' +
+                        //             data);
+                        //     }
+
+                        $.trim(likebtn.find('small').text()) == 'أعجبني' ? showUnLike(data) :
+                            showlike(data);
+                    } else {
+                        alert('لا يمكنك الإعجاب بهذه المراجعة');
+                    }
+                });
+
+                function showUnLike(count) {
+                    likebtn.html('<li class="fa fa-thumbs-down"></li> <small>' + 'إلغاء الإعجاب' +
+                        '</small>' + count);
                 }
-            });
 
-            $.ajax({
-                url:"{{ route('like.store') }}",
-                type:'POST',
-                data:{'review_id' : review}
-            }).done(function(data){
-                if(data) {
-                    $.trim(likebtn.find('small').text()) == 'أعجبني' ? showUnLike(data) : showlike(data);
-                } else {
-                    alert('لا يمكنك الإعجاب بهذه المراجعة');
+                function showlike(count) {
+                    likebtn.html('<li class="fa fa-thumbs-up"></li> <small>' + 'أعجبني' + '</small>' +
+                        count);
                 }
-            });
 
-            function showUnLike(count) {
-                likebtn.html('<li class="fa fa-thumbs-down"></li> <small>' + 'إلغاء الإعجاب' + '</small>' + count);
-            }
+            })
+        });
 
-            function showlike(count) {
-                likebtn.html('<li class="fa fa-thumbs-up"></li> <small>' + 'أعجبني' +'</small>'+ count );
-            }
+        // var longitude = $('#longitude').val();
+        // var latitude = $('#latitude').val();
 
-        })
-    });
+        // var map = L.map('mapid', {
+        //     center : [latitude , longitude],
+        //     zoom : 13
+        // });
 
-    var longitude = $('#longitude').val();
-    var latitude = $('#latitude').val();
-
-    var map = L.map('mapid', {
-        center : [latitude , longitude],
-        zoom : 13
-    });
-
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
-    L.marker([latitude, longitude]).bindPopup($('#name').val()).addTo(map).openPopup();
-</script> --}}
+        // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+        // L.marker([latitude, longitude]).bindPopup($('#name').val()).addTo(map).openPopup();
+    </script>

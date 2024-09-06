@@ -21,7 +21,7 @@ class PlaceController extends Controller
     {
         // $places =  $this->place->orderBy('view_count', 'desc')->take(3)->get();
         // return view('welcome', 'places');
-        return view('welcome',['places'=> Place::orderBy('view_count','desc')->take(3)->get()]);
+        return view('welcome', ['places' => Place::orderBy('view_count', 'desc')->take(3)->get()]);
     }
 
     /**
@@ -45,7 +45,11 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
-        $place = $place::withCount('reviews')->with('reviews')->find($place->id);
+        $place = $place::withCount('reviews')->with(['reviews' => function ($query) {
+            $query->with('user');
+            $query->withCount('likes');
+        }])->find($place->id);
+
         $avg = $this->averageRating($place);
         $total = $avg['total'];
         $serviceRating = $avg['service_rating'];

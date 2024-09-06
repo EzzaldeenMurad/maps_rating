@@ -7,8 +7,8 @@
             <div id="address-list"></div>
         </div>
         <div class="w-6/12">
-            <select class="p-1 mr-5 bg-gray-200 w-full rounded-md" name="category">
-                <option value="">حدد التصنيف </option>
+            <select  class="p-1 mr-5 bg-gray-200 w-full rounded-md "   name="category" >
+                <option value="" >حدد التصنيف </option>
                 @include('includes\category_list')
             </select>
         </div>

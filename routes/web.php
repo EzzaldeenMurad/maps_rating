@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReviewController;
@@ -18,19 +19,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+// });
 
 Route::get('/search', [SearchController::class, 'autoComplete'])->name('auto-complete');
 
@@ -38,9 +39,11 @@ Route::post('search', [SearchController::class, 'show'])->name('search');
 
 Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('category.show');
 
-Route::resource('report', ReportController::class, ['only' => ['create','store']]);
+Route::resource('report', ReportController::class, ['only' => ['create', 'store']]);
 
 Route::get('/', [PlaceController::class, 'index'])->name('home');
 Route::get('/{place}/{slug}', [PlaceController::class, 'show'])->name('place.show');
 
 Route::post('review', [ReviewController::class, 'store'])->name('review.store');
+
+Route::post('like', [LikeController::class, 'store'])->name('like.store');
