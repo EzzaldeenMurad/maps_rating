@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PlaceController;
@@ -37,10 +38,17 @@ Route::get('/search', [SearchController::class, 'autoComplete'])->name('auto-com
 
 Route::post('search', [SearchController::class, 'show'])->name('search');
 
+Route::get('bookmark/{place_id}', [BookmarkController::class, 'bookmark'])->name('bookmark');
+
+Route::get('bookmarks', [BookmarkController::class, 'getByUser'])->name('bookmarks');
+
 Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('category.show');
 
 Route::resource('report', ReportController::class, ['only' => ['create', 'store']]);
 
+Route::get('/place/create', [PlaceController::class, 'create'])->name('place.create');
+
+Route::post('/place/store', [PlaceController::class, 'store'])->name('place.store');
 Route::get('/', [PlaceController::class, 'index'])->name('home');
 Route::get('/{place}/{slug}', [PlaceController::class, 'show'])->name('place.show');
 

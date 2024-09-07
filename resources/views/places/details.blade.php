@@ -35,12 +35,12 @@
                 <hr />
                 <div class="p-3">
                     @auth
-                        {{-- <a href="{{ route('bookmark', $place->id) }}"
+                        <a href="{{ route('bookmark', $place->id) }}"
                             class="border border-teal-500 text-xs text-teal-500 hover:bg-teal-500 hover:text-gray-100 rounded ml-3 p-1">
                             <span class=""><i
                                     class="fa {{ Auth::user()->alreadyBookmarked($place->id) ? 'fa-bookmark' : 'fa-bookmark-o' }} fa-lg"></i></span>
                             علامة مرجعية
-                        </a> --}}
+                        </a>
                         <a href="{{ route('report.create') }}"
                             class="border border-red-500 text-xs text-red-500 hover:bg-red-500 hover:text-gray-200 rounded p-1">
                             <span class=""><i class="fa fa-warning"></i></span>إبلاغ موقع مكرر
@@ -246,7 +246,7 @@
     </x-app-layout>
 
 
-   
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
     <script type="text/javascript">
         $(function() {
             $('button.like').on('click', function() {
@@ -267,16 +267,6 @@
                     }
                 }).done(function(data) {
                     if (data) {
-                        //     if ({{ Auth::user()->alreadyliked($review) }}) {
-                        //         likebtn.html('<li class="fa fa-thumbs-down"></li> <small>' +
-                        //             'إلغاء الإعجاب' +
-                        //             '</small>' + data);
-                        //     } else {
-                        //         likebtn.html('<li class="fa fa-thumbs-up"></li> <small>' + 'أعجبني' +
-                        //             '</small>' +
-                        //             data);
-                        //     }
-
                         $.trim(likebtn.find('small').text()) == 'أعجبني' ? showUnLike(data) :
                             showlike(data);
                     } else {
@@ -297,5 +287,15 @@
             })
         });
 
+        var longitude = $('#longitude').val();
+        var latitude = $('#latitude').val();
 
+
+        var map = L.map('mapid', {
+            center: [latitude, longitude],
+            zoom: 13
+        });
+
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+        L.marker([latitude, longitude]).bindPopup($('#name').val()).addTo(map).openPopup();
     </script>

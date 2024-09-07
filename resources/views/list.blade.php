@@ -16,7 +16,7 @@
              @foreach($places as $place)
              <div class="flex mb-5 bg-white">
                 <div class="flex-none w-48 relative">
-                    <a href="#">
+                    <a href="{{ route('place.show',[ $place->id,$place->slug]) }}">
                         <img src="{{ $place->image }}" alt="" class="absolute inset-0 w-full h-full object-cover" />
                     </a>
                 </div>
@@ -46,7 +46,7 @@
 </x-app-layout>
 
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-{{-- <script>
+<script>
     var longitude = {!! $places->pluck('longitude') !!}
     var latitude = {!! $places->pluck('latitude') !!}
 
@@ -65,5 +65,5 @@
     map.fitBounds([
         group
     ]);
-</script> --}}
+</script>
 

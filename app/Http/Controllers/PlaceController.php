@@ -29,7 +29,7 @@ class PlaceController extends Controller
      */
     public function create()
     {
-        //
+        return view('places.create');
     }
 
     /**
@@ -37,7 +37,14 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public\images', $imageName);
+            $request->user()->places()->create($request->except('image') + ['image' => $imageName]);
+        } else {
+            $request->user()->places()->create($request->all());
+        }
+        return back();
     }
 
     /**

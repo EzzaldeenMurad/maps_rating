@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Font Awesome -->
-   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -22,7 +22,8 @@
 
 
     <!-- Styles -->
- <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="" crossorigin="" />
     @livewireStyles
 </head>
 
@@ -61,7 +62,8 @@
                     url: "{{ route('auto-complete') }}",
                     type: "GET",
                     data: {
-                        "address": address}
+                        "address": address
+                    }
                 }).done(function(data) {
                     $('#address-list').html(data);
                 });
