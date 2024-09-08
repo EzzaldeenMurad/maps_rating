@@ -17,6 +17,9 @@
                     </x-nav-link>
                 </div> --}}
             </div>
+
+            
+
             @guest
                 <div class="flex">
                     <x-nav-link href="{{ route('login') }}" class="ml-3">{{ __('Login') }} </x-nav-link>
