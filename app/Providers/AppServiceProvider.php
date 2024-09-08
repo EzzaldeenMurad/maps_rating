@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\CategoryComposer;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer(['includes.header', 'includes.category_list'],CategoryComposer::class);
+        View::composer(['includes.header', 'includes.category_list'], CategoryComposer::class);
+
+        Blade::if('owner', function () {
+            return auth()->check() && auth()->user()->hasRole('Owner');
+        });
     }
 }

@@ -24,16 +24,16 @@
                 </div>
             @endguest
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                @auth
-                    <div class="flex" style="width:70%; text-align:center; ">
-                        {{-- @owner --}}
+            @auth
+                <div class="flex" style="width:70%; text-align:center; ">
+                    @owner
                         <x-nav-link href="{{ route('place.create') }}">
                             {{ __('إنشاء موقع') }}
                         </x-nav-link>
-                        {{-- @endowner --}}
-                    </div>
-                    <!-- Settings Dropdown -->
+                    @endowner
+                </div>
+                <!-- Settings Dropdown -->
+                <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <div class="ms-3 relative">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">

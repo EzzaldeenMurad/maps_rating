@@ -13,6 +13,7 @@ class PlaceController extends Controller
     public function __construct(Place $place)
     {
         $this->place = $place;
+        $this->middleware('role',['only'=>['create','store']]);
     }
     /**
      * Display a listing of the resource.
