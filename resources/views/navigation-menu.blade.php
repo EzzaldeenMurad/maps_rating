@@ -24,6 +24,7 @@
                 </div>
             @endguest
 
+            
             @auth
                 <div class="flex" style="width:70%; text-align:center; ">
                     @owner
